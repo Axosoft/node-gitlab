@@ -14,7 +14,7 @@ class ProjectMilestones extends BaseModel
     data = []
     cb = (err, retData) =>
       if err
-        return fn(retData || data) if fn
+        return fn err, (retData || data) if fn
       else if retData.length == params.per_page
         @debug "Recurse Projects::Milestones::all()"
         data = data.concat(retData)
@@ -22,13 +22,13 @@ class ProjectMilestones extends BaseModel
         return @get "projects/#{Utils.parseProjectId projectId}/milestones", params, cb
       else
         data = data.concat(retData)
-        return fn data if fn
+        return fn err, data if fn
 
     @get "projects/#{Utils.parseProjectId projectId}/milestones", params, cb
 
   show: (projectId, milestoneId, fn = null) =>
     @debug "Projects::milestone()"
-    @get "projects/#{Utils.parseProjectId projectId}/milestones/#{parseInt milestoneId}", (data) => fn data if fn
+    @get "projects/#{Utils.parseProjectId projectId}/milestones/#{parseInt milestoneId}", fn
 
   add: (projectId, title, description, due_date, fn = null) =>
     @debug "Projects::addMilestone()"
@@ -37,7 +37,7 @@ class ProjectMilestones extends BaseModel
       title: title
       description: description
       due_date: due_date
-    @post "projects/#{Utils.parseProjectId projectId}/milestones", params, (data) => fn data if fn
+    @post "projects/#{Utils.parseProjectId projectId}/milestones", params, fn
 
   update: (projectId, milestoneId, title, description, due_date, state_event, fn = null) =>
     @debug "Projects::editMilestone()"
@@ -47,6 +47,6 @@ class ProjectMilestones extends BaseModel
       description: description
       due_date: due_date
       state_event: state_event
-    @put "projects/#{Utils.parseProjectId projectId}/milestones/#{parseInt milestoneId}", params, (data) => fn data if fn
+    @put "projects/#{Utils.parseProjectId projectId}/milestones/#{parseInt milestoneId}", params, fn
 
 module.exports = (client) -> new ProjectMilestones client

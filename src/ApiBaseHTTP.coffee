@@ -39,6 +39,9 @@ class module.exports.ApiBaseHTTP extends ApiBase
     return opts
 
   fn_wrapper: (fn) =>
+    if not fn
+      return () ->
+
     return (err, response, ret) =>
       arity = fn.length
       switch arity

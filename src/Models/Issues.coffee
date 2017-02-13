@@ -11,7 +11,7 @@ class Issues extends BaseModel
 
     do (->
       data = []
-      cb = (retData) =>
+      cb = (err, retData) =>
         if retData.length == params.per_page
           @debug "Recurse Issues::all()"
           data = data.concat(retData)
@@ -19,7 +19,7 @@ class Issues extends BaseModel
           return @get "issues", params, cb
         else
           data = data.concat(retData)
-          fn data if fn
+          fn err, data if fn
 
       @get "issues", params, cb
     ).bind(@)
@@ -34,7 +34,7 @@ class Issues extends BaseModel
       issueId = encodeURIComponent(issueId)
     else
       issueId = parseInt(issueId)
-    @get "projects/#{projectId}/issues/#{issueId}", (data) => fn data if fn
+    @get "projects/#{projectId}/issues/#{issueId}", fn
 
   create: (projectId, params = {}, fn = null) =>
     @debug "Issues::create()"
@@ -43,7 +43,7 @@ class Issues extends BaseModel
     else
       projectId = parseInt(projectId)
 
-    @post "projects/#{projectId}/issues", params, (data) -> fn data if fn
+    @post "projects/#{projectId}/issues", params, fn
 
   edit: (projectId, issueId, params = {}, fn = null) =>
     @debug "Issues::edit()"
@@ -57,6 +57,6 @@ class Issues extends BaseModel
     else
       issueId = parseInt(issueId)
 
-    @put "projects/#{projectId}/issues/#{issueId}", params, (data) -> fn data if fn
+    @put "projects/#{projectId}/issues/#{issueId}", params, fn
 
 module.exports = (client) -> new Issues client

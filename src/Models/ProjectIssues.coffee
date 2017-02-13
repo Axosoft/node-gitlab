@@ -4,7 +4,7 @@ Utils = require '../Utils'
 class ProjectIssues extends BaseModel
   init: =>
     @notes = @load 'IssueNotes'
-    
+
   list: (projectId, params = {}, fn = null) =>
     @debug "ProjectIssues::issues()"
 
@@ -18,7 +18,7 @@ class ProjectIssues extends BaseModel
       data = []
       cb = (err, retData) =>
         if err
-          return fn data if fn
+          return fn err, data if fn
         if retData.length == params.per_page
           @debug "Recurse ProjectIssues::list()"
           data = data.concat(retData)
@@ -26,7 +26,7 @@ class ProjectIssues extends BaseModel
           return @get "projects/#{Utils.parseProjectId projectId}/issues", params, cb
         else
           data = data.concat(retData)
-          return fn data if fn
+          return fn err, data if fn
 
       @get "projects/#{Utils.parseProjectId projectId}/issues", params, cb
     ).bind(@)

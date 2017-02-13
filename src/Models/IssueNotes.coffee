@@ -14,7 +14,7 @@ class IssueNotes extends BaseModel
     data = []
     cb = (err, retData) =>
       if err
-        return fn data if fn
+        return fn err, data if fn
       else if retData.length == params.per_page
         @debug "Recurse IssueNotes::all()"
         data = data.concat(retData)
@@ -22,7 +22,7 @@ class IssueNotes extends BaseModel
         return @get "projects/#{Utils.parseProjectId projectId}/issues/#{parseInt issueId}/notes", params, cb
       else
         data = data.concat(retData)
-        return fn data if fn
+        return fn null, data if fn
 
     @get "projects/#{Utils.parseProjectId projectId}/issues/#{parseInt issueId}/notes", params, cb
 

@@ -21,7 +21,7 @@ class Groups extends BaseModel
     data = []
     cb = (err, retData) =>
       if err
-        return fn(retData || data) if fn
+        return fn err, retData || data if fn
       else if retData.length == params.per_page
         @debug "Recurse Groups::all()"
         data = data.concat(retData)
@@ -29,21 +29,21 @@ class Groups extends BaseModel
         return @get "groups", params, cb
       else
         data = data.concat(retData)
-        return fn data if fn
+        return fn err, data if fn
 
     @get "groups", params, cb
 
   show: (groupId, fn = null) =>
     @debug "Groups::show()"
-    @get "groups/#{parseInt groupId}", (data) => fn data if fn
+    @get "groups/#{parseInt groupId}", fn
 
   listProjects: (groupId, fn = null) =>
     @debug "Groups::listProjects()"
-    @get "groups/#{parseInt groupId}", (data) => fn data.projects if fn
+    @get "groups/#{parseInt groupId}", fn
 
   listMembers: (groupId, fn = null) =>
     @debug "Groups::listMembers()"
-    @get "groups/#{parseInt groupId}/members", (data) => fn data if fn
+    @get "groups/#{parseInt groupId}/members", fn
 
   addMember: (groupId, userId, accessLevel, fn=null) =>
     @debug "addMember(#{groupId}, #{userId}, #{accessLevel})"
@@ -60,20 +60,20 @@ class Groups extends BaseModel
       user_id: userId
       access_level: accessLevel
 
-    @post "groups/#{parseInt groupId}/members", params, (data) -> fn data if fn
+    @post "groups/#{parseInt groupId}/members", params, fn
 
   create: (params = {}, fn = null) =>
     @debug "Groups::create()"
-    @post "groups", params, (data) -> fn data if fn
+    @post "groups", params, fn
 
   addProject: (groupId, projectId, fn = null) =>
     @debug "Groups::addProject(#{groupId}, #{projectId})"
-    @post "groups/#{parseInt groupId}/projects/#{parseInt projectId}", null, (data) -> fn data if fn
+    @post "groups/#{parseInt groupId}/projects/#{parseInt projectId}", null, fn
 
   search: (nameOrPath, fn = null) =>
     @debug "Groups::search(#{nameOrPath})"
     params =
       search: nameOrPath
-    @get "groups", params,  (data) -> fn data if fn
+    @get "groups", params, fn
 
 module.exports = (client) -> new Groups client

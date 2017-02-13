@@ -14,7 +14,7 @@ class ProjectLabels extends BaseModel
     data = []
     cb = (err, retData) =>
       if err
-        return fn data if fn
+        return fn err, data if fn
       else if retData.length == params.per_page
         @debug "Recurse ProjectLabels::all()"
         data = data.concat(retData)
@@ -22,7 +22,7 @@ class ProjectLabels extends BaseModel
         return @get "projects/#{Utils.parseProjectId projectId}/labels", params, cb
       else
         data = data.concat(retData)
-        return fn data if fn
+        return fn err, data
 
     @get "projects/#{Utils.parseProjectId projectId}/labels", params, cb
 
