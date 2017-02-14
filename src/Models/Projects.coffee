@@ -90,6 +90,10 @@ class Projects extends BaseModel
     @debug "Projects::show()"
     @get "projects/#{Utils.parseProjectId projectId}", fn
 
+  showFromNamespaceAndProjectName: (namespace, projectName, fn=null) =>
+    @debug "Projects::showFromNamespaceAndProjectName"
+    @get "projects/#{namespace}%2F#{projectName}", fn
+
   create: (params={}, fn=null) =>
     @debug "Projects::create()"
     @post "projects", params, fn
