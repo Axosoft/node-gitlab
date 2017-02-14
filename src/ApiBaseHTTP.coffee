@@ -43,11 +43,19 @@ class module.exports.ApiBaseHTTP extends ApiBase
       return () ->
 
     return (err, response, ret) =>
-      arity = fn.length
-      switch arity
-        when 1 then fn ret
-        when 2 then fn err, ret || ((JSON.parse(response.body).message) if (response and typeof response.body == "string"))
-        when 3 then fn err, response, ret
+      if response and typeof response.body == "string"
+        message = JSON.parse(response.body)
+      else if response and typeof response.body == "object"
+        message = response.body
+
+      if err
+        error = err
+      else if response.statusCode.toString()[0] != "2"
+        error =
+          message: message
+          statusCode: response.statusCode
+
+      fn error, message
 
   get: (path, query={}, fn=null) =>
     if 'function' is typeof query
