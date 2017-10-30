@@ -46,6 +46,17 @@
         return expect(getStub).to.have.been.calledWith("projects/abc%2Fdef");
       });
     });
+    describe("forks()", function() {
+      return it("should get forks for project id", function() {
+        var getStub;
+        getStub = sinon.stub(projects, "get");
+        projects.forks({
+          id: 123
+        });
+        getStub.restore();
+        return expect(getStub).to.have.been.calledWith("projects/123/forks");
+      });
+    });
     describe("all()", function() {
       var arrayOf1, arrayOf100, arrayOf101, arrayOf99;
       arrayOf101 = [];
