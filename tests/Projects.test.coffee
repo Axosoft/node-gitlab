@@ -43,6 +43,13 @@ describe "Projects", ->
       getStub.restore()
       expect(getStub).to.have.been.calledWith "projects/abc%2Fdef"
 
+  describe "forks()", ->
+    it "should get forks for project id", ->
+      getStub = sinon.stub projects, "get"
+      projects.forks {id: 123}
+      getStub.restore()
+      expect(getStub).to.have.been.calledWith "projects/123/forks",
+
   describe "all()", ->
     arrayOf101 = []
     arrayOf100 = []
