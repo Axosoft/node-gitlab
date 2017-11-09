@@ -26,7 +26,7 @@ npm install gitlab
 Usage
 =====
 
-URL to your GitLab instance should not include `/api/v3` path.
+URL to your GitLab instance should not include `/api/v4` path.
 
 Coffee-Script
 -------------

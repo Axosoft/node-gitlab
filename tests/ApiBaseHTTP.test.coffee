@@ -16,17 +16,17 @@ describe "ApiBaseHTTP", ->
   beforeEach ->
 
   describe "handleOptions()", ->
-    it "should strip /api/v3 from `url` parameter if provided", ->
+    it "should strip /api/v4 from `url` parameter if provided", ->
       apibasehttp = new ApiBaseHTTP
-        base_url: "api/v3"
-        url: "http://gitlab.mydomain.com/api/v3"
+        base_url: "api/v4"
+        url: "http://gitlab.mydomain.com/api/v4"
         token: "test"
 
       expect(apibasehttp.options.url).to.equal("http://gitlab.mydomain.com")
 
-    it "should not strip /api/v3 from `url` parameter if not provided", ->
+    it "should not strip /api/v4 from `url` parameter if not provided", ->
       apibasehttp = new ApiBaseHTTP
-        base_url: "api/v3"
+        base_url: "api/v4"
         url: "http://gitlab.mydomain.com"
         token: "test"
 

@@ -1,5 +1,5 @@
-{ApiV3} = require './ApiV3'
+{ApiV4} = require './ApiV4'
 module.exports = (options) ->
-	return new ApiV3(options)
+	return new ApiV4(options)
 
-module.exports.ApiV3 = ApiV3
+module.exports.ApiV4 = ApiV4
