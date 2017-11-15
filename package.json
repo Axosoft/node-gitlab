@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "debug": "*",
-    "slumber": "Axosoft/node-slumber#9f3caaf8c6654b30f0914a2722a99fc92ccd8d6f"
+    "slumber": "github:Axosoft/node-slumber#9f3caaf8c6654b30f0914a2722a99fc92ccd8d6f"
   },
   "devDependencies": {
     "coffee-script": ">=1.9.1",
