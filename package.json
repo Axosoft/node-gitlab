@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "debug": "*",
-    "slumber": "Axosoft/node-slumber#remove-xhr-header-white-list"
+    "slumber": "Axosoft/node-slumber#gk-v3.3.0-RC1"
   },
   "devDependencies": {
     "coffee-script": ">=1.9.1",
